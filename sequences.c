@@ -93,8 +93,9 @@ void affiche_sequence(Sequence* sequence) {
     //TODO
     /* Je pense qu'on va devoir utiliser set_sequence(sequence) et get_nucleotide(Sequence* sequence, int i)*/
 
-    
+    //Afficher l'identifiant de la séquence
     printf("    * ID : %s", sequence->ID);
+    //Afficher la séquence elle-même
     printf("    * Sequence : %s", sequence->seq);
 
 
@@ -169,7 +170,7 @@ int extract_next_sequence(char* code, int start, Sequence* sequence) {
     int longueur = strlen(code);
     int n = 0;
     int i = 0;
-    for (i = start+1; code[i] =! '\n' && code[i] != '\0'; i++) // i = start + 1 sinon ça prend le >
+    for (i = start+1; code[i] != '\n' && code[i] != '\0'; i++) // i = start + 1 sinon ça prend le >
     {
             sequence->ID[n] = code[i];
             n++;
@@ -178,7 +179,7 @@ int extract_next_sequence(char* code, int start, Sequence* sequence) {
     i++;
 
 
-    for (;code[i] =! '\n' && code[i] != '\0'; i++) // i = start + 1 sinon ça prend le >
+    for (;code[i] != '\n' && code[i] != '\0'; i++) // i = start + 1 sinon ça prend le >
     {
         sequence->seq[n] = code[i];
         n++;
