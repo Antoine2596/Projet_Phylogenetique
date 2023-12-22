@@ -34,7 +34,7 @@ Input : Float
 Output : Float
 Main : Fonction qui applique la correction de Jukes-Cantor
 */
-#include <math.h> //necessaire pour la fonction ln
+#include <math.h> //necessaire pour la fonction log
 float jukes_cantor(float x) {
     //TODO
     float realdistanceseq1seq2 = (-3.0/4.0)*log(1-(3.0/4.0)*x); //3/4 donne 0 sur C car c'est des entiers or on veut un float donc j'ajoute ".0"
@@ -82,14 +82,15 @@ Main : Procedure qui remplit la matrice avec la distance entre les sequences
 */
 void fill_distance_matrix(int entries, float matrice_distance[][entries], Sequence sequences[]) {
     //TODO
-    // ce que j'ai fait ici est totalement faux, je m'en occupe plus tard
-    for (int i = 0;i<entries;i++){
-        for (int j=0;j<entries;j++){
-            float distance(sequences[i], sequence[j]);
-            matrice_distance[i][j] = float jukes_cantor(float x);
+    // je pense qu'il faut utiliser les fonctions précédentes pour celui-ci 
+    for (int i = 0; i<entries;i++){
+        for (int j = 0;j<entries;j++){
+            float distancepaire = distance(sequences[i],sequences[j]);
+            float distancecorrigee = jukes_cantor(distancepaire);
+            matrice_distance[i][j] = distancecorrigee;
         }
     }
-},
+}
 
 /*
 Input : Un fichier
