@@ -50,6 +50,16 @@ Main : Procedure qui trouve la valeur min dans la matrice Inferieur et stocke ce
 */
 void find_min_index_distance_matrix(int entries, int nb_noeud, float matrice_distance[][entries], float* min, int* i_min, int* j_min) {
     //TODO
+    *min = 0;
+    for (int i = 0;i<entries;i++){
+        for (int j = 0; j<entries;j++){
+            if (matrice_distance[i][j]<*min){
+                *min = matrice_distance[i][j];
+                *i_min = i;
+                *j_min = j;
+            }
+        }
+    }
 }
 
 /*--------------------------------
@@ -103,10 +113,33 @@ Noeud* create_copy(Noeud* e) {
     return n;
 }
 
+
 /*-----------------------------------
 Fonctions de manipulation d'affichage
 -------------------------------------*/
 
+/*
+Input : pointeur sur un noeud
+Output : None
+Main : procedure qui affiche le noeud
+Cette fonction s'inspire de void afficher_elem_plat disponible plus bas.
+*/
+void afficher_elem(Noeud* e) {
+    if (e == NULL) return;
+
+    if (est_feuille(e)) printf("%s", e->valeur);
+    else {
+        printf("  ");
+        afficher_elem(e->suivant_right);
+        printf("\n");
+        printf("/");
+        printf("\n");
+        printf("\\"); //obligation de placer une double barre oblique pour en afficher une seule
+        printf("  ");
+        afficher_elem(e->suivant_left);
+        printf("\n");
+    }
+}
 
 /*
 Input : pointeur sur un arbre
@@ -115,8 +148,14 @@ Main : procedure qui affiche un arbre
 */
 void new_affichage(Arbre* a){
     //TODO
+    // pour lui je m'inspire fortement de la fonction void afficher_arbre_plat(Arbre* a) visible plus bas. 
+    Noeud* e = a->tete;
+    printf("\n");
+    afficher_elem(e);
+    printf("\n");
 }
 
+//Il me faut encore tester cette fonction. Quand j'aurai trouvé comment faire.
 
 /*
 Input : pointeur sur un noeud
@@ -203,6 +242,18 @@ void add_Noeud(List_Noeuds* list, Noeud* n) {
 }
 
 /*
+Input : Pointeurs vers deux noeuds 
+Output : None 
+Main  : Procédure qui prends deux pointeurs vers des noeuds et en crée un nouveau qui les regroupe 
+J'ai créé cette nouvelle fonction pour regrouper deux noeuds et faciliter la suite.
+*/
+void create_group(Noeud* n1, Noeud* n2){
+    Noeud* new_group = (Noeud*)malloc(sizeof(Noeud));
+    new_group->suivant_left = n1;
+    new_group->suivant_right = n2;
+}
+
+/*
 Input : pointeur d'une Liste de Noeud et 2 entiers
 Output : pointeur sur une liste
 Main : Fonction qui regroupe ensemble les deux noeuds qui se trouvent à l'index i et j
@@ -213,6 +264,11 @@ Main : Fonction qui regroupe ensemble les deux noeuds qui se trouvent à l'index
 */
 List_Noeuds* group_together(List_Noeuds* list_param, int i, int j) {
     //TODO
+    noeud1 = get_noeud_from_list(list, i);
+    noeud2 = get_noeud_from_list(list, j);
+    nouveau_groupe = create_group(noeud1, noeud2);
+    add_Noeud(list_param, nouveau_groupe);
+    return list_param;
 }
 
 /*------------------
