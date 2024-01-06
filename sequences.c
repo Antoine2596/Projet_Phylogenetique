@@ -90,10 +90,12 @@ Output : None
 Main : Effectue l'affichage de la sequence
 */
 void affiche_sequence(Sequence* sequence) {
+
     
     // On fait deux printf, l'un pour l'ID, l'autre pour la séquence
     printf("     * ID : %s\n", sequence->ID);
     printf("     * Sequence : %s\n", sequence->seq);
+
 }
 
 
@@ -161,6 +163,7 @@ Main : Fonction qui prend le code ainsi qu'une position start, elle va chercher 
        sequence elle retourne -1 
 */
 int extract_next_sequence(char* code, int start, Sequence* sequence) {
+<<<<<<< HEAD
   
     int n = 0; // n va être la position de l'objet ID de la structure séquence.
     int i = start; // Position du '>' actuelle du tableau IDTab[] à la position
@@ -182,9 +185,9 @@ int extract_next_sequence(char* code, int start, Sequence* sequence) {
     n = 0; // On redefinit n à 0, pour commencer au début de sequence->seq.
 
 
-
     // On extrait la séquence, si on lit à la position i un '>' ou un '\0', alors on ne lit plus la séquence, on arrête la boucle.
     while(code[i] != '>' && code[i] != '\0')  
+
     {
         if (code[i] != '\n') {
             sequence->seq[n] = code[i];
