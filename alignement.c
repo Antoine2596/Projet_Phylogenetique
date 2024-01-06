@@ -27,16 +27,7 @@ Main : Fonction qui prend un caractere et retourne l'index correspondant (voir l
 */
 int get_val_base(char a) {
 
-    // On lui donne un caractère, et il me donne la position de la ligne ou de la colonne où il se situe
-    // Cependant, comment avec juste un caractère, on peut lui dire si c'est la colonne ou la ligne?
-    // Ducoup imaginons qu'on a chr1 = C et chr2 = G
-    // On se base uniquement sur la position de la colonne, chr1 va renvoyer -1 et chr2 va renvoyer -3
-    // Pour le second caractère, il est en deuxième colonne, vu qu'il correcpond à -1.
-    // Ensuite pour le second caractère, on va déterminer dans quel position de colonne il est (dans lequel il y a -3), ici la 3ème colonne.
-    //Parfait pour déterminer le score, on cherche le score pour à la position du tableau[position chr1][position chr2]
-
-    // Sauf qu'on sait que -1 et -3 sont des scores pour la première ligne, si de base chr2 est A, mais on s'en fou je pense, pourquoi ?
-    // Parce on se sert uniqueemnt se ce score pour avoir la position de chr1, ensuite si chr2 vaut -3 alors on c'est qu'il est à la 3ème position.
+    // on détermine la position (colonne ou ligne peut importe car il s'agit d'un matrice symétrique) du caractère.
     int position;
     switch (a)
     {
@@ -71,14 +62,10 @@ Main : Fonction qui prend en entier 2 caracteres et qui retourne
 int similarity_score(char ch1, char ch2) {
 
 
-    // Mon hypothèse : avec une lettre on peut pas directement savoir où dans le tableau elle se situe (dans quelle colonne/ligne)
-    // ON va donc utiliter la fonction get_val_base pour déterminer la colonne ou la ligne dans lequel sont positionné les deux caractères
-    // Ensuite, vu qu'on connait la colonne et la ligne, on pourra avoir le score qui se situe à cette position.
-    //printf("%c",ch2);
-    //Déterminer la position de chr1
-
+    // On détermine la x et y de la case qui à pour ligne la position1 et colonne la position2.
     int position1 = get_val_base(ch1);
     int position2 = get_val_base(ch2);
+    // On renvoie la valeur de la case à cette position.
     return similarity_matrix[position1][position2];
 
 
@@ -91,16 +78,18 @@ Main : Fonction qui prend en entier 2 chaînes de caracteres et qui retourne
        le score d'alignement entre les deux chaînes
 */
 int score_alignement(char* alignement1, char* alignement2) {
+    // On détermine via strlen la longueur ds chaînes de caracètres
     int length1 = strlen(alignement1);
+    // La somme est définit à 0 au début.
     int somme = 0;
     for (size_t i = 0; i < length1; i++)
     {
+        // A chaque itération, on prend le caracètre de chaque séquence à la position i
         char chr1 = alignement1[i];
         char chr2 = alignement2[i];
-        
+        // et on ajoute le score de similarité de ces deux caractère à la somme.
         somme += similarity_score(alignement1[i],alignement2[i]);
     }
-    
     
     return somme;
     
@@ -131,38 +120,24 @@ Output : None
 Main : Procedure qui Initialise la matrice M
 */
 void initialise_M(int n, int m, int M[][m]) {
-    int gapscore = 0;
-    for (int i = 1; i < n+1; i++)
-    {
-        
-        M[i][2] = gapscore;
-        gapscore -= 5;
-        
-    }
-    gapscore = 0;
-    for (int i = 1; i < n+1; i++)
-    {
-        
-        M[2][i] = gapscore;
-        gapscore -= 5;
-        
-    }
-
-            for (int i = 1; i < n+1; i++)
-    {
-        for (int j = 1; j < m+1; j++)
-        {
-            printf("%c\t", M[i][j]);
+ // On initialise toutes les cases de la matrice à 0
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            M[i][j] = 0;
         }
-        printf("\n");
-        
     }
 
+    // Et on remplit la première ligne et la première colonne avec les valeurs décroissantes
+    for (int i = 0; i < m; i++) {
+        M[0][i] = -5 * i;
+    }
+    for (int i = 0; i < n; i++) {
+        M[i][0] = -5 * i;
+    }
 
-
-    
-    
+   
 }
+
 
 /*
 Input : 2 entiers et une matrice
@@ -170,19 +145,36 @@ Output : None
 Main : Procedure qui Initialise la matrice T
 */
 void initialise_T(int n, int m, char T[][m]) {
-    T[1][1] = 'o';
-    for (int i = 2; i < m+1; i++)
+    // La case en 0,0 prend la valeur 'o'
+    T[0][0] = 'o';
+
+    // On réalise une double boucle pour remplir toute les cases avec des '.' (soucis de lecture du tableau pour ensuite vérifier la matrice)
+    for (int i = 1; i < n; i++) {
+    for (int j = 1; j < m; j++) {
+            T[i][j] = '.';
+        }
+    }
+
+    // Les cases de la premières lignes sont remplis de 'l'
+    for (int i = 1; i < m; i++)
     {
         
-        T[i][2] = 'l';
+        T[0][i] = 'l';
         
     }
-    for (int i = 2; i < n+1; i++)
+
+    // Les cases de la première colonne sont remplit de 'u'
+    for (int i = 1; i < n; i++)
     {
         
-        T[2][i] = 'u';
+        T[i][0] = 'u';
         
     }
+
+    
+
+
+
 
 }
 
@@ -192,6 +184,8 @@ Output : un caractere
 Main : Fonction qui retourne le caractere correspondant au maximum index de la formule Mij
 */
 char symbole(int entier) {
+    // On a mit demande la valeur de l'index, qui nous communique de quel équation a eu la valeur maximal
+    // Selon la valeur de l'index, on choisit de prendre d, l ou u
     if (entier == 0) {
         return 'd';
     }
@@ -228,32 +222,43 @@ Main : Procedure qui applique la formule Mij et qui sauvegarde
        correspondant (0, 1 ou 2) dans le deuxieme.
 */
 void fonction_Mij(Sequence* s1, Sequence* s2, int i, int j, int n, int m, int M[][m], int* max, int* index) {
-    //TODO
+    // On détermine EQ1, EQ2 et EQ3, les trois équations qui vont être réaliser pour chaques cases
 
     int EQ1, EQ2, EQ3;
-    EQ1 = M[i-1][j-1] + similarity_score(s1->seq[i], s2->seq[j]);
-    EQ2 = M[i-1][j] -5;
-    EQ2 = M[i-1][j] -5;
+    // On définit deux pointeurs qui vont pointer vers les deux séquences
+    char* alignement1 = s1->seq;
+    char* alignement2 = s2->seq;
 
-    if (EQ1 > EQ2 && EQ1 > EQ3);
-    {
-        max = EQ1;
-        index = 0;
-    }
-    if (EQ2 > EQ1 && EQ2 > EQ3);
-    {
-        max = EQ2;
-        index = 1;
-
-    }
-    if (EQ3 > EQ1 && EQ3 > EQ2);
-    {
-        max = EQ3;
-        index = 2;
-    }
+    // On réalise les équations, EQ1 fait la somme entre la valeur de la case en haut à gauche de la case étudié, avec le score d'alignement des nucléotides présentent à cette case.
+    EQ1 = M[i-1][j-1] + similarity_score(alignement1[i-1], alignement2[j-1]);
+    EQ2 = M[i][j-1]- 5;
+    EQ3 = M[i-1][j] -5;
     
+    // On initialise max et index à la première condition
+    *max = EQ1;
+    *index = 0; // Nous supposons au départ que EQ1 à la valeur maximal et index vaut 0, si ce n'est pas le cas les deux conditions suivants changeront max et index.
 
-    
+    if (EQ2 > *max) {
+        *max = EQ2;
+        *index = 1; // Supposons 1 pour le mouvement à gauche
+    } else if (EQ3 > *max) {
+        *max = EQ3;
+        *index = 2; // Supposons 2 pour le mouvement vers le haut
+    }
+
+
+
+
+    // J'ai mis ici en commentaire un script me permettant d'afficher les valeurs à chaque itération afin de comprendre une erreur que j'avai eu
+
+    // printf("%c - %c\n", s1->seq[i-1], s2->seq[j-1]);
+    // printf("M[i-1][j-1] : %d | M[i][j-1] : %d | M[i-1][j] : %d\n", M[i-1][j-1],M[i][j-1],M[i-1][j]);
+    // printf("Score : %d\n", similarity_score(alignement1[i-1], alignement2[j-1]));
+    // printf("EQ1 : %d | i : %d j :%d \n", EQ1, i, j);
+    // printf("EQ2 : %d | i : %d j :%d \n", EQ2, i, j);
+    // printf("EQ3 : %d | i : %d j :%d \n", EQ3, i, j);
+    // printf("max %d\n", *max);
+   
 }
 
 /*
@@ -265,32 +270,33 @@ Main : Procedure qui applique l'algorithme Needleman-Wunsch
        dans les 2 pointeurs
 */
 void needleman_wunsch(Sequence seq1, Sequence seq2, char* alignement1, char* alignement2) {
-    //TODO
+    // On prend les dimenssion de la matrice (+1 puisque ont ajoute la valeurs des gaps)
+    int n = strlen(seq1.seq)+1;
+    int m = strlen(seq2.seq)+1;
 
-    int n = strlen(seq1.seq);
-    int m = strlen(seq2.seq);
-
+    // On créer la matrice M et T de dimension m,n.
     int M[n][m];
     char T[n][m];
     initialise_M(n,m,M);
     initialise_T(n,m,T);
 
+    // On définit index prenant pour valeur 1,2,3 pour communiqué s'il s'agit d'un left, upper, ou diag.
+    int index;
 
-    
-    int max = 0;
-    char index;
-
-        for (int i = 2; i < n+1; i++)
+    // On réalise une double boucle afin de remplir la matrice M et T.
+        for (int i = 1; i < n; i++)
     {
-        for (int j = 2; j < m+1; j++)
+        for (int j = 1; j < m; j++)
         {
-
-            fonction_Mij(seq1.seq, seq2.seq, i, j, n, m, M, max, index);
+            // On définit la variable max, qui va être remplacé par le résultat maximal dans la fonction fonction_Mij
+            int max = 0; 
+            fonction_Mij(&seq1, &seq2, i, j, n, m, M, &max, &index);
             M[i][j] = max;
             T[i][j] = symbole(index);            
         }   
     }
 
+    // Les variable qui vont prendre les chaînes de caractères predront la dimension de la séquence la plus grande.
     int lengthAB;
     if (m > n)
     {
@@ -300,56 +306,58 @@ void needleman_wunsch(Sequence seq1, Sequence seq2, char* alignement1, char* ali
         lengthAB = n;
     }
     
+    // On définit les tableau seqA et seqB qui vont être deux tableaux qui prendront les séquences A et B respectivement via la matrice T.
     char seqA[lengthAB];
-    char seqB[lengthAB];
-   
+    char seqB[lengthAB];    
+
+    // On définit les positions d'où on lit le tableau T, on commence à la fin. la position vaut n-1 ou m-1 puisque au début nous avons fait +1 pour prendre en compte la colonnes et lignes des gaps.
+    int positionN = n-1;
+    int positionM = m-1;
+    // IndexA et indexB sont les valeurs opposé à position N et M. Où dans la matrice T on lit de la fin vers le début, on ajoute les nucléotides ou les gaps dans le sens début -> dans nos séquences seqA et seqB.
+    int indexA = 0;
+    int indexB = 0;
+
+    // Remplir seqA et seqB à l'endroit
+    while (positionN > 0 || positionM > 0) {
+        // On lit la matrice T, et on prend la décision si la case faut d (pour diagonale), u (pour upper) ou l (pour left)
+        if (T[positionN][positionM] == 'd') {
+            // Si la case lut vaut 'd', alors il n'y a pas de gap. SeqA et SeqB prennent pour leur position index actuelle la valeur de leur séquences respective.
+            // 
+            seqA[indexA++] = seq1.seq[--positionN];
+            seqB[indexB++] = seq2.seq[--positionM];
+        } else if (T[positionN][positionM] == 'u') {
+            seqA[indexA++] = seq1.seq[--positionN];
+            seqB[indexB++] = '-';
+        } else if (T[positionN][positionM] == 'l') {
+            seqA[indexA++] = '-';
+            seqB[indexB++] = seq2.seq[--positionM];
+        }
+    }
+
+    // Pour terminer les chaînes avec le caractère nul
+    seqA[indexA] = '\0';
+    seqB[indexB] = '\0';
+
 
     
-    // // Faire l'alignement final
-    // while (T[n][m] != 'o')
-    // {
-    //     printf("n : %d,  m : %d, %c", n, m, T[n][m]);
-    //     if (T[n][m] == 'd')
-    //     {
-    //         seqA[n] = seq1.seq[n];
-    //         seqB[m] = seq1.seq[m];
-    //         m = m-1;
-    //         n = n-1; 
-    //         printf("\n1");
-    //     }
-    //     if (T[n][m] == 'u')
-    //     {
-    //         seqA[n] = seq1.seq[n];
-    //         seqB[m] = '-';
-    //         n = n-1;
-    //         printf("\n2");
-    //     }
-    //     if (T[n][m] =='l')
-    //     {
-    //         seqB[m] = seq2.seq;
-    //         seqA[n] = '-';
-    //         m = m-1;
-    //         printf("\n3");
-    //     if (T[n][m] == 'o')
-    //     {
-    //         break;
-    //     }
-        
+    //On copie les chaînes dans alignement1 et alignement2
+    strcpy(alignement1, seqA);
+    strcpy(alignement2, seqB);
 
-    //     }
-        
-    //     alignement1 = seqA;
-    //     alignement2 = seqB;
+    // Nous n'arrivons pas à utiliser la fonction reverse_string, cependant cela ne change pas les résultat du score d'alignement.
+    // reverse_string(alignement1);
+    // reverse_string(alignement2);
 
-        
-
-            
-    // }
     
+
+
+  
+
+
     
+
 
 }
-
 
 
 

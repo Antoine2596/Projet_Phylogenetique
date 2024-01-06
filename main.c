@@ -10,8 +10,8 @@ Sujet propose par George Marchment
 #include "utils.h"
 
 int main() {
-    int SEQUENCES = 0;
-    int ALIGNEMENT = 1;
+    int SEQUENCES = 1;
+    int ALIGNEMENT = 0;
     int MATRICE_DISTANCE = 0;
     int UPGMA = 0;
     int NJ = 0;
@@ -60,7 +60,7 @@ int main() {
         set_sequence(&seq1, "Sequence 1", "ACTCCTGA");
         Sequence seq2;
         set_sequence(&seq2, "Sequence 2", "ATCTCGTGA");
-        printf("\n test");
+        
         needleman_wunsch(seq1, seq2, alignement1, alignement2);
 
 
