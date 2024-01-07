@@ -379,9 +379,28 @@ Output : None
 Main : Procedure qui calcule le plus petit Mij et qui stocke les i et j dans les pointeurs
 */
 void calcule_pair_Mij(int entries, int nb_noeuds, float S[nb_noeuds], float matrice[][entries], float* min_val, int* i_min, int* j_min) {
-    //TODO
-}
+    *min_val = matrice[1][0] - S[1] - S[0];
+    *i_min = 1;
+    *j_min = 0;
 
+
+    for (int j = 0 ; j < entries - 1 ; j++)
+    {
+        for (int i = j+1 ; i < entries; i++)            //Avec cette façon, on calcule de nouveau M10 
+        {
+            float M = matrice[i][j] - S[i] - S[j];
+            if (M < *min_val)
+            {
+                *min_val = M;
+                *i_min = i;
+                *j_min = j;
+            }
+            
+        }
+        
+    }
+    
+}
 /*
 Input : - taille de la matrice (entier)
         - pointeur d'une Liste de Noeud
