@@ -48,14 +48,19 @@ Output : None
 Main : Procedure qui trouve la valeur min dans la matrice Inferieur et stocke cette valeur 
        dans le pointeur et ces index dans les 2 autres pointeurs
 */
-void find_min_index_distance_matrix(int entries, int nb_noeud, float matrice_distance[][entries], float* min, int* i_min, int* j_min) {
-    *min = 9999999999999999999.99999999;
-    *i_min = -1;
-    *j_min = -1;
+void find_min_index_distance_matrix(int entries, int nb_noeud, float matrice_distance[][entries], float *min, int *i_min, int *j_min)
+{
 
-    for (int i = 0; i < entries; i++) {
-        for (int j = 0; j < entries; j++) {
-            if (matrice_distance[i][j] < *min) {
+    *min = matrice_distance[1][0];
+    *i_min = 1;
+    *j_min = 0;
+
+    for (int i = 2; i < entries; i++)
+    {
+        for (int j = 0; j < i; j++)
+        {
+            if (*min > matrice_distance[i][j])
+            {
                 *min = matrice_distance[i][j];
                 *i_min = i;
                 *j_min = j;
@@ -288,8 +293,13 @@ Output : float
 Main : Fonction qui calcule la valeur d'une nouvelle cellule dans la matrice à partir de la formule d_ij,k
 */
 float calcule_new_cell(int entries, List_Noeuds* list, float matrice_distance[][entries], int i, int j, int k) {
-    //TODO
+    float d_ij_k; 
+
+    d_ij_k = matrice_distance[i][k] / 2 + matrice_distance[k][j] / 2;
+
+    return d_ij_k;
 }
+
 
 /*
 Input : - taille de la matrice (entier)
