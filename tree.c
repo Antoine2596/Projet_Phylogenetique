@@ -347,7 +347,25 @@ Output : None
 Main : Procedure qui calcule les S de la matrice de distance donnee en parametre en suivant les regles definies dans le lien 
 */
 void calcul_S(int entries, int nb_noeuds, float S[nb_noeuds], float matrice[][entries]) {
-    //TODO
+    void calcul_S(int entries, int nb_noeuds, float S[nb_noeuds], float matrice[][entries])
+{
+    for (int i = 0; i < entries; i++)
+    {
+        float Sum = 0;
+
+        for (int j = 0; j < i; j++)
+        {
+            Sum = Sum + matrice[i][j];
+        }
+
+        for (int k = i + 1; k < entries; k++)
+        {
+            Sum = Sum + matrice[k][i];
+        }
+        printf("%f \n", Sum);
+        S[i] = Sum / (entries - 1);
+    }
+}
 }
 
 /*
