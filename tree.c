@@ -409,7 +409,6 @@ void calcul_S(int entries, int nb_noeuds, float S[nb_noeuds], float matrice[][en
         {
             Sum = Sum + matrice[k][i];
         }
-        printf("%f \n", Sum);
         S[i] = Sum / (entries - 1);
     }
 }
