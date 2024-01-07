@@ -310,7 +310,54 @@ Main : Fonction qui effectue une etape de l'algorithme de UPGMA et qui retourne 
       sur une nouvelle liste de noeuds
 */
 List_Noeuds* fuse_matrice_upgma(int entries, List_Noeuds* list, float matrice_distance[][entries]) {
-    //TODO
+    // Premiere etape : Trouver le minimum dans la matrice de distance
+    float min;
+    int i_min;
+    int j_min;
+    find_min_index_distance_matrix(entries, 3, matrice_distance, &min, &i_min, &j_min);
+
+    //Deuxieme etape : Creer le nouveau noeud
+
+    new_noeud();
+
+
+    // Troisième etape : remplir une nouvelle matrice avec les nouvelles distances
+    float new_matrice_distance[entries][entries];
+    set_copy(entries, new_matrice_distance, matrice_distance);
+
+    for (int k = 0; k < entries; k++)
+    {
+        if (k != i_min && k != j_min)
+        {
+            matrice_distance[k][0] = calcule_new_cell(entries, list,  matrice_distance, i_min, j_min, k);
+        }
+    }
+
+    // Quatrième étape compléter la nouvelle matrice avec les données de l'ancienne
+
+    for (int i = 1; i < entries - 1; i++)
+    {
+        for (int j = 2; j < entries - 1; j++)
+        {
+            if (i < i_min && j < j_min)
+            {
+                matrice_distance[i][j] = new_matrice_distance[i + 1][j + 1];
+            }
+            else
+            {
+                if ((i > i_min && j < j_min) || (i < i_min && j > j_min))
+                {
+                    matrice_distance[i][j] = new_matrice_distance[i][j];
+                }
+                else
+                {
+                    matrice_distance[i][j] = new_matrice_distance[i - 1][j - 1];
+                }
+            }
+        }
+    }
+
+    entries = entries - 1;
 }
 
 /*
