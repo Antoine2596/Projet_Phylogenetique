@@ -49,11 +49,13 @@ Main : Procedure qui trouve la valeur min dans la matrice Inferieur et stocke ce
        dans le pointeur et ces index dans les 2 autres pointeurs
 */
 void find_min_index_distance_matrix(int entries, int nb_noeud, float matrice_distance[][entries], float* min, int* i_min, int* j_min) {
-    //TODO
-    *min = 0;
-    for (int i = 0;i<entries;i++){
-        for (int j = 0; j<entries;j++){
-            if (matrice_distance[i][j]<*min){
+    *min = 9999999999999999999.99999999;
+    *i_min = -1;
+    *j_min = -1;
+
+    for (int i = 0; i < entries; i++) {
+        for (int j = 0; j < entries; j++) {
+            if (matrice_distance[i][j] < *min) {
                 *min = matrice_distance[i][j];
                 *i_min = i;
                 *j_min = j;
@@ -113,7 +115,6 @@ Noeud* create_copy(Noeud* e) {
     return n;
 }
 
-
 /*-----------------------------------
 Fonctions de manipulation d'affichage
 -------------------------------------*/
@@ -125,6 +126,7 @@ Main : procedure qui affiche le noeud
 Cette fonction s'inspire de void afficher_elem_plat disponible plus bas.
 */
 void afficher_elem(Noeud* e) {
+    //TODO
     if (e == NULL) return;
 
     if (est_feuille(e)) printf("%s", e->valeur);
@@ -135,6 +137,7 @@ void afficher_elem(Noeud* e) {
         printf("/");
         printf("\n");
         printf("\\"); //obligation de placer une double barre oblique pour en afficher une seule
+        printf("\n");
         printf("  ");
         afficher_elem(e->suivant_left);
         printf("\n");
@@ -270,6 +273,7 @@ List_Noeuds* group_together(List_Noeuds* list_param, int i, int j) {
     add_Noeud(list_param, nouveau_groupe);
     return list_param;
 }
+
 
 /*------------------
 Fonctions pour UPGMA
