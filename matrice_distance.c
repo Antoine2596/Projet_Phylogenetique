@@ -14,6 +14,7 @@ Input : Deux Sequences
 Output : Float
 Main : Fonction qui retourne la distance entre deux sequences 
 */
+//TODO
 float distance(Sequence seq1, Sequence seq2) {
     
     int lengthseq1 = strlen(seq1.seq); //longueur première sequence 
@@ -46,13 +47,14 @@ Input : Float
 Output : Float
 Main : Fonction qui applique la correction de Jukes-Cantor
 */
+//TODO
 #include <math.h> //necessaire pour la fonction log
 float jukes_cantor(float x) {
 
     float ln = logf(1.0 - (4.0 / 3.0) * x);
 
-    float realdistanceseq1seq2 = (-3.0 / 4.0) * ln ; // 3/4 donne 0 sur C car c'est des entiers or on veut un float donc j'ajoute ".0"
-    return realdistanceseq1seq2; //distance reelle après correction de jukes
+    float realdistanceseq1seq2 = (-3.0 / 4.0) * ln ;
+    return realdistanceseq1seq2; //distance reelle après correction
 
 }
 
