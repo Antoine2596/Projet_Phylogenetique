@@ -272,8 +272,8 @@ Main : Fonction qui regroupe ensemble les deux noeuds qui se trouvent à l'index
 */
 List_Noeuds* group_together(List_Noeuds* list_param, int i, int j) {
     //TODO
-    noeud1 = get_noeud_from_list(list, i);
-    noeud2 = get_noeud_from_list(list, j);
+    Noeud* noeud1 = get_noeud_from_list(list, i);
+    Noeud* noeud2 = get_noeud_from_list(list, j);
     nouveau_groupe = create_group(noeud1, noeud2);
     add_Noeud(list_param, nouveau_groupe);
     return list_param;
@@ -452,11 +452,17 @@ Input : - taille de la matrice (entier)
         - pointeur d'une Liste de Noeud
         - matrice de float 
 Output : pointeur d'une Liste de Noeud
-Main : Fonction qui effectue une etape de l'algorithme de Neighbor Joining et qui retourne un pointeur 
+Main : Fonction qui effectue une etape de l'algorithme de UPGMA et qui retourne un pointeur 
       sur une nouvelle liste de noeuds
 */
-List_Noeuds* fuse_matrice_NJ(int entries, List_Noeuds* list, float matrice_distance[][entries]) {
+List_Noeuds* fuse_matrice_upgma(int entries, List_Noeuds* list, float matrice_distance[][entries]) {
     //TODO
+    int min, i_min, j_min;
+    while (get_nb_noeuds(list)>1){
+        find_min_index_distance_matrix(entries, matrice_distance, &min, &i_min, &j_min);
+        list = group_together(list, i_min, j_min);
+        calcule_new_cell(entries, list, matrice_distance, i_min, j_min);
+    }
 }
 
 /*
