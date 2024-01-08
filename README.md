@@ -21,6 +21,6 @@ Pour pouvoir utilisé le script, il est en premier temps nécéssaire de l'avoir
 Pour compiler et exécuter le script : 
 
 1) Ouvrir un terminal Unix ou équivalent (WSL par exemple).
-2) Naviguer dans les dossier afin d'être dans le fichier du projet (utilisation de la commande 'cd' pour naviguer).
-3) Compiler le script avec la commande 'make'.
-4) Exécuter le script via la commande './phylo'.
+2) Naviguer dans les dossier afin d'être dans le fichier du projet (utilisation de la commande ```cd``` pour naviguer).
+3) Compiler le script avec la commande ```make```.
+4) Exécuter le script via la commande ```./phylo```.
