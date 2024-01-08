@@ -411,6 +411,7 @@ Arbre UPGMA(int entries, List_Noeuds *list, float matrice_distance[][entries])
         list = fuse_matrice_upgma(entries, list, matrice_distance);
         nb_noeuds = get_nb_noeuds(list);
         entries = entries - 1; // J'ai rajouté cette ligne pour décrémenter la taille de la matrice de distance 
+        printf("%d  %d \n", nb_noeuds, entries);
     }
 
     Arbre a;
@@ -564,6 +565,7 @@ Arbre Neighbor_Joining(int entries, List_Noeuds *list, float matrice_distance[][
     {
         list = fuse_matrice_NJ(entries, list, matrice_distance);
         nb_noeuds = get_nb_noeuds(list);
+        entries = entries - 1; // J'ai rajouté cette ligne pour décrémenter la taille de la matrice de distance
     }
 
     Arbre a;
