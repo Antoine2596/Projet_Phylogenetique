@@ -452,16 +452,16 @@ Input : - taille de la matrice (entier)
         - pointeur d'une Liste de Noeud
         - matrice de float 
 Output : pointeur d'une Liste de Noeud
-Main : Fonction qui effectue une etape de l'algorithme de UPGMA et qui retourne un pointeur 
+Main : Fonction qui effectue une etape de l'algorithme de Neighbor Joining et qui retourne un pointeur 
       sur une nouvelle liste de noeuds
 */
-List_Noeuds* fuse_matrice_upgma(int entries, List_Noeuds* list, float matrice_distance[][entries]) {
+List_Noeuds* fuse_matrice_NJ(int entries, List_Noeuds* list, float matrice_distance[][entries]) {
     //TODO
     int min, i_min, j_min;
     while (get_nb_noeuds(list)>1){
         find_min_index_distance_matrix(entries, matrice_distance, &min, &i_min, &j_min);
         list = group_together(list, i_min, j_min);
-        calcule_new_cell(entries, list, matrice_distance, i_min, j_min);
+        calcule_pair_Mij(entries, list, matrice_distance, i_min, j_min);
     }
 }
 
