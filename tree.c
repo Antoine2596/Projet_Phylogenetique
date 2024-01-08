@@ -248,34 +248,31 @@ void add_Noeud(List_Noeuds* list, Noeud* n) {
 }
 
 /*
-Input : Pointeurs vers deux noeuds 
-Output : None 
-Main  : Procédure qui prends deux pointeurs vers des noeuds et en crée un nouveau qui les regroupe 
-CGPT : Prompt => "est-il possible de créer une fonction à part pour regrouper deux noeuds ? A quoi faut-il faire attention ?"
-J'ai créé cette nouvelle fonction pour regrouper deux noeuds et faciliter la suite.
-*/
-void create_group(Noeud* n1, Noeud* n2){
-    Noeud* new_group = (Noeud*)malloc(sizeof(Noeud));
-    new_group->suivant_left = n1;
-    new_group->suivant_right = n2;
-}
-
-/*
 Input : pointeur d'une Liste de Noeud et 2 entiers
 Output : pointeur sur une liste
 Main : Fonction qui regroupe ensemble les deux noeuds qui se trouvent à l'index i et j
        et place cette nouvelle noeud dans un element qui se place au debut d'une
-       nouvelle liste. Ainsi les autres elements de la liste originale sont concatenes 
+       nouvelle liste. Ainsi les autres elements de la liste originale sont concatenes
        à la nouvelle dans le même ordre. Ainsi taille(nouvelle) = taille(ancienne)-1.
        Elle retourne le pointeur de cette nouvelle liste.
 */
-List_Noeuds* group_together(List_Noeuds* list_param, int i, int j) {
-    //TODO
-    Noeud* noeud1 = get_noeud_from_list(list, i);
-    Noeud* noeud2 = get_noeud_from_list(list, j);
-    nouveau_groupe = create_group(noeud1, noeud2);
-    add_Noeud(list_param, nouveau_groupe);
-    return list_param;
+/List_Noeuds *group_together(List_Noeuds *list_param, int i, int j)
+{
+    Noeud *noeud1 = get_noeud_from_list(list_param, i);
+    Noeud *noeud2 = get_noeud_from_list(list_param, j);
+
+    Noeud *new_group = (Noeud *)malloc(sizeof(Noeud));
+    new_group->suivant_left = noeud1;
+    new_group->suivant_right = noeud2;
+
+    Element *New_element;
+    New_element->data = new_group;
+
+    List_Noeuds *new_list;
+    new_list->head = New_element;
+    new_list->nb_elements = get_nb_noeuds(new_list);
+
+    return new_list;
 }
 
 
@@ -309,18 +306,13 @@ Main : Fonction qui effectue une etape de l'algorithme de UPGMA et qui retourne 
       sur une nouvelle liste de noeuds
 */
 List_Noeuds* fuse_matrice_upgma(int entries, List_Noeuds* list, float matrice_distance[][entries]) {
-    // Premiere etape : Trouver le minimum dans la matrice de distance
+     // Premiere etape : Trouver le minimum dans la matrice de distance
     float min;
     int i_min;
     int j_min;
     find_min_index_distance_matrix(entries, 3, matrice_distance, &min, &i_min, &j_min);
 
-    //Deuxieme etape : Creer le nouveau noeud
-
-    new_noeud();
-
-
-    // Troisième etape : remplir une nouvelle matrice avec les nouvelles distances
+    // Deuxieme etape : remplir une nouvelle matrice avec les nouvelles distances
     float new_matrice_distance[entries][entries];
     set_copy(entries, new_matrice_distance, matrice_distance);
 
@@ -328,11 +320,11 @@ List_Noeuds* fuse_matrice_upgma(int entries, List_Noeuds* list, float matrice_di
     {
         if (k != i_min && k != j_min)
         {
-            matrice_distance[k][0] = calcule_new_cell(entries, list,  matrice_distance, i_min, j_min, k);
+            matrice_distance[k][0] = calcule_new_cell(entries, list, matrice_distance, i_min, j_min, k);
         }
     }
 
-    // Quatrième étape compléter la nouvelle matrice avec les données de l'ancienne
+    // Troisieme étape compléter la nouvelle matrice avec les données de l'ancienne
 
     for (int i = 1; i < entries - 1; i++)
     {
@@ -357,6 +349,10 @@ List_Noeuds* fuse_matrice_upgma(int entries, List_Noeuds* list, float matrice_di
     }
 
     entries = entries - 1;
+
+    // Quatrieme etape : regrouper les deux noeuds dans une nouvelle liste qui contient tous les autres noeuds egalement
+
+    return group_together(list, i_min, j_min);
 }
 
 /*
