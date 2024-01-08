@@ -184,7 +184,7 @@ Output : un caractere
 Main : Fonction qui retourne le caractere correspondant au maximum index de la formule Mij
 */
 char symbole(int entier) {
-    // On a mit demande la valeur de l'index, qui nous communique de quel équation a eu la valeur maximal
+    // On a mit demande la valeur de l'index, qui nous communique de quelle équation a eu la valeur maximal
     // Selon la valeur de l'index, on choisit de prendre d, l ou u
     if (entier == 0) {
         return 'd';
@@ -236,14 +236,14 @@ void fonction_Mij(Sequence* s1, Sequence* s2, int i, int j, int n, int m, int M[
     
     // On initialise max et index à la première condition
     *max = EQ1;
-    *index = 0; // Nous supposons au départ que EQ1 à la valeur maximal et index vaut 0, si ce n'est pas le cas les deux conditions suivants changeront max et index.
+    *index = 0; // On suppose qu'au départ que EQ1 à la valeur maximal et index vaut 0, si ce n'est pas le cas les deux conditions suivants changeront max et index.
 
     if (EQ2 > *max) {
         *max = EQ2;
-        *index = 1; // Supposons 1 pour le mouvement à gauche
+        *index = 1; // Si EQ 2 est le max, alors on fait un mouvement à gauche
     } else if (EQ3 > *max) {
         *max = EQ3;
-        *index = 2; // Supposons 2 pour le mouvement vers le haut
+        *index = 2; // Si EQ 3 est le max, alors on fait un mouvement à gauche
     }
 
 
