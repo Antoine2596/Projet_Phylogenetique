@@ -163,7 +163,7 @@ Main : Fonction qui prend le code ainsi qu'une position start, elle va chercher 
        sequence elle retourne -1 
 */
 int extract_next_sequence(char* code, int start, Sequence* sequence) {
-<<<<<<< HEAD
+
   
     int n = 0; // n va être la position de l'objet ID de la structure séquence.
     int i = start; // Position du '>' actuelle du tableau IDTab[] à la position
