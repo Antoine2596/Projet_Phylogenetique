@@ -163,8 +163,6 @@ void new_affichage(Arbre* a){
     printf("\n");
 }
 
-//Il me faut encore tester cette fonction. Quand j'aurai trouvé comment faire.
-
 /*
 Input : pointeur sur un noeud
 Output : None
