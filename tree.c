@@ -253,6 +253,7 @@ void add_Noeud(List_Noeuds* list, Noeud* n) {
 Input : Pointeurs vers deux noeuds 
 Output : None 
 Main  : Procédure qui prends deux pointeurs vers des noeuds et en crée un nouveau qui les regroupe 
+CGPT : Prompt => "est-il possible de créer une fonction à part pour regrouper deux noeuds ? A quoi faut-il faire attention ?"
 J'ai créé cette nouvelle fonction pour regrouper deux noeuds et faciliter la suite.
 */
 void create_group(Noeud* n1, Noeud* n2){
@@ -447,6 +448,7 @@ void calcule_pair_Mij(int entries, int nb_noeuds, float S[nb_noeuds], float matr
     }
     
 }
+
 /*
 Input : - taille de la matrice (entier)
         - pointeur d'une Liste de Noeud
@@ -456,13 +458,54 @@ Main : Fonction qui effectue une etape de l'algorithme de Neighbor Joining et qu
       sur une nouvelle liste de noeuds
 */
 List_Noeuds* fuse_matrice_NJ(int entries, List_Noeuds* list, float matrice_distance[][entries]) {
-    //TODO
-    int min, i_min, j_min;
-    while (get_nb_noeuds(list)>1){
-        find_min_index_distance_matrix(entries, matrice_distance, &min, &i_min, &j_min);
-        list = group_together(list, i_min, j_min);
-        calcule_pair_Mij(entries, list, matrice_distance, i_min, j_min);
+    // Premiere etape : Trouver le minimum dans la matrice de distance
+    float min_val;
+    int i_min;
+    int j_min;
+    find_min_index_distance_matrix(entries, 3, matrice_distance, &min, &i_min, &j_min);
+
+    //Deuxieme etape : Creer le nouveau noeud
+
+    new_noeud();
+
+
+    // Troisième etape : remplir une nouvelle matrice avec les nouvelles distances
+    float new_matrice_distance[entries][entries];
+    set_copy(entries, new_matrice_distance, matrice_distance);
+
+    for (int k = 0; k < entries; k++)
+    {
+        if (k != i_min && k != j_min)
+        {
+            matrice_distance[k][0] = calcule_pair_Mij(entries, 3,  matrice, &min_val, &i_min, &j_min);
+        }
     }
+
+    // Quatrième étape compléter la nouvelle matrice avec les données de l'ancienne
+
+    for (int i = 1; i < entries - 1; i++)
+    {
+        for (int j = 2; j < entries - 1; j++)
+        {
+            if (i < i_min && j < j_min)
+            {
+                matrice_distance[i][j] = new_matrice_distance[i + 1][j + 1];
+            }
+            else
+            {
+                if ((i > i_min && j < j_min) || (i < i_min && j > j_min))
+                {
+                    matrice_distance[i][j] = new_matrice_distance[i][j];
+                }
+                else
+                {
+                    matrice_distance[i][j] = new_matrice_distance[i - 1][j - 1];
+                }
+            }
+        }
+    }
+
+    entries = entries - 1;
 }
 
 /*
