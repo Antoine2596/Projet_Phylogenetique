@@ -1,6 +1,6 @@
 # Projet_Phylogenetique
 
-## Membre du groupe
+## Membres du groupe
 Loth Antoine
 Meligua Lévy
 Beigaud Anne
