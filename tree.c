@@ -166,6 +166,13 @@ void afficher_elem(Noeud *e)
 }
 
 /*
+Concernant l'affichage de l'arbre non plat, nous n'obtenons pas les résultats escomptés dans le fond, même si la forme correspond.
+Les différentes feuilles s'affichent verticalement les unes en dessous des autres, sans la moindre différence. Il s'agit également d'un problème 
+que nous trouvons avec l'arbre plat.
+Nous pensons donc que l'origine du problème se situe dans l'affichage d'éléments, pas dans la façon d'afficher les arbres en eux-mêmes. 
+*/
+
+/*
 Input : pointeur sur un arbre
 Output : None
 Main : procedure qui affiche un arbre
@@ -311,6 +318,11 @@ List_Noeuds *group_together(List_Noeuds *list_param, int i, int j)
     }
     return new_list;
 }
+/*
+Suite à différents tests, nous nous sommes aperçus d'un problème : nous ne parvenons pas à conserver les anciens noeuds dans la nouvelle liste.
+Ainsi, l'algorithme s'arrête directement. Même si nous ne sommes pas parvenus à une solution, nous pensons qu'il faudrait modifier
+la fonction "group_together" de sorte à conserver les anciens noeuds.
+*/
 
 /*------------------
 Fonctions pour UPGMA
