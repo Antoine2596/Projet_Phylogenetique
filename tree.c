@@ -321,7 +321,7 @@ List_Noeuds *group_together(List_Noeuds *list_param, int i, int j)
 /*
 Suite à différents tests, nous nous sommes aperçus d'un problème : nous ne parvenons pas à conserver les anciens noeuds dans la nouvelle liste.
 Ainsi, l'algorithme s'arrête directement. Même si nous ne sommes pas parvenus à une solution, nous pensons qu'il faudrait modifier
-la fonction "group_together" de sorte à conserver les anciens noeuds.
+la fonction "group_together" de sorte à conserver les anciens noeuds. Peut-être en créant une nouvelle variable ou en modifiant la "new_list" de façon adéquate.
 */
 
 /*------------------
